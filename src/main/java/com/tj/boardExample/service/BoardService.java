@@ -19,4 +19,8 @@ public class BoardService {
         return boardMapper.selectBoard(brdKey);
     }
 
+    public void modifyBoard(BoardDto boardDto) {
+        boardMapper.updateBoard(boardDto);
+    }
+
 }

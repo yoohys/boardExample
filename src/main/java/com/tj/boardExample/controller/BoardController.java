@@ -35,10 +35,23 @@ public class BoardController {
         // boardSelect html 에서 데이터가 표현되게끔
     }
 
-    // 수정 API 만드는것
-
     // 수정 전 정보를 조회하고 수정을 할 수 있는 페이지 Return API
+    @RequestMapping("/boardUpdate/{brdKey}") // Default = GET
+    public String boardUpdate1(Model model, @PathVariable("brdKey") Integer brdKey2) {
+        BoardDto boardDto = boardService.getBoard(brdKey2);
+        model.addAttribute("board", boardDto);
+        return "board/boardUpdate";
+    }
+
     // 수정 버튼을 눌렀을때 데이터들을 통하여 실제 수정이 진행될 API
+    @RequestMapping("/boardUpdate2") // Default = GET
+    public String boardUpdate2(Model model, BoardDto boardDto) {
+        boardService.modifyBoard(boardDto);
+//        BoardDto boardDto2 = boardService.getBoard(boardDto.getBrdKey());
+//        model.addAttribute("board", boardDto2);
+//        return "board/boardUpdate";
+        return "redirect:/boardUpdate/" + boardDto.getBrdKey();
+    }
 
 
 

@@ -14,4 +14,12 @@
         WHERE brd_key = #{brdKey}
     </select>
 
+    <update id="updateBoard" parameterType="com.tj.boardExample.dto.BoardDto">
+        UPDATE board
+        SET brd_title = #{brdTitle}
+        , brd_content = #{brdContent}
+        , user_key = #{userKey}
+        WHERE brd_key = #{brdKey}
+    </update>
+
 </mapper>
