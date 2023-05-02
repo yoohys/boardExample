@@ -17,13 +17,13 @@ public class BoardController {
 
     @RequestMapping(value = "/boardPage", method = RequestMethod.GET)
     public String boardPage() {
-        return "board.html";
+        return "board/board";
     }
 
     @RequestMapping(value = "/boardInsert", method = RequestMethod.GET)
     public String boardInsert(BoardDto boardDto) {
         boardService.registerBoard(boardDto);
-        return "board.html";
+        return "board/board.html";
     }
 
     @RequestMapping("/boardSelect/{brdKey}") // Default = GET
@@ -31,14 +31,23 @@ public class BoardController {
         BoardDto boardDto = boardService.getBoard(brdKey2);
         model.addAttribute("board", boardDto);
         System.out.println(boardDto);
-        return "boardSelect";
+        return "board/boardSelect";
         // boardSelect html 에서 데이터가 표현되게끔
     }
 
+    // 수정 API 만드는것
+
+    // 수정 전 정보를 조회하고 수정을 할 수 있는 페이지 Return API
+    // 수정 버튼을 눌렀을때 데이터들을 통하여 실제 수정이 진행될 API
+
+
+
 //        DTO          DTO       DTO
 //    View   Controller   Service   Mapper =  Mapper.xml (DB)
+
 //       ----->        ------>   ----->   =
 //       <-----        <------   <-----
+
 // Create, Read, Update (Read + Create), Delete
 
     // View 화면단위
