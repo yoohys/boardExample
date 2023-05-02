@@ -56,7 +56,7 @@ public class BoardController {
     @RequestMapping("/boardUpdate2") // Default = GET
     public String boardUpdate2(Model model, BoardDto boardDto) {
         boardService.modifyBoard(boardDto);
-        return "redirect:/boardUpdate/" + boardDto.getBrdKey();
+        return "redirect:/boardSelect/" + boardDto.getBrdKey();
     }
 
     @RequestMapping("/boardDelete/{brdKey}") // Default = GET
