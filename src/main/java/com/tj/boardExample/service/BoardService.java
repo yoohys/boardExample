@@ -5,6 +5,8 @@ import com.tj.boardExample.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BoardService {
 
@@ -15,12 +17,20 @@ public class BoardService {
         boardMapper.insertBoard(boardDto);
     }
 
+    public List<BoardDto> getAllBoard() {
+        return boardMapper.selectBoardList();
+    }
+
     public BoardDto getBoard(Integer brdKey) {
         return boardMapper.selectBoard(brdKey);
     }
 
     public void modifyBoard(BoardDto boardDto) {
         boardMapper.updateBoard(boardDto);
+    }
+
+    public void removeBoard(Integer brdKey) {
+        boardMapper.deleteBoard(brdKey);
     }
 
 }

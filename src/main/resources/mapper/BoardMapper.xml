@@ -14,6 +14,11 @@
         WHERE brd_key = #{brdKey}
     </select>
 
+    <select id="selectBoardList" resultType="com.tj.boardExample.dto.BoardDto">
+        SELECT *
+        FROM board
+    </select>
+
     <update id="updateBoard" parameterType="com.tj.boardExample.dto.BoardDto">
         UPDATE board
         SET brd_title = #{brdTitle}
@@ -21,5 +26,10 @@
         , user_key = #{userKey}
         WHERE brd_key = #{brdKey}
     </update>
+
+    <delete id="deleteBoard" parameterType="int">
+        DELETE FROM board
+        WHERE brd_key = #{brdKey}
+    </delete>
 
 </mapper>

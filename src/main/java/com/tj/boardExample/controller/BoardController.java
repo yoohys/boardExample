@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
 public class BoardController {
 
@@ -24,6 +26,13 @@ public class BoardController {
     public String boardInsert(BoardDto boardDto) {
         boardService.registerBoard(boardDto);
         return "board/board.html";
+    }
+
+    @RequestMapping(value = "/boardSelectAll", method = RequestMethod.GET)
+    public String boardSelectAll(Model model) {
+        List<BoardDto> boardDtoList = boardService.getAllBoard();
+        model.addAttribute("boardList", boardDtoList);
+        return "board/boardSelectAll.html";
     }
 
     @RequestMapping("/boardSelect/{brdKey}") // Default = GET
@@ -47,12 +56,14 @@ public class BoardController {
     @RequestMapping("/boardUpdate2") // Default = GET
     public String boardUpdate2(Model model, BoardDto boardDto) {
         boardService.modifyBoard(boardDto);
-//        BoardDto boardDto2 = boardService.getBoard(boardDto.getBrdKey());
-//        model.addAttribute("board", boardDto2);
-//        return "board/boardUpdate";
         return "redirect:/boardUpdate/" + boardDto.getBrdKey();
     }
 
+    @RequestMapping("/boardDelete/{brdKey}") // Default = GET
+    public String boardDelete(@PathVariable("brdKey") Integer brdKey) {
+        boardService.removeBoard(brdKey);
+        return "test.html";
+    }
 
 
 //        DTO          DTO       DTO
