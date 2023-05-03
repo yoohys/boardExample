@@ -1,5 +1,6 @@
 package com.tj.boardExample.service;
 
+import com.tj.boardExample.dto.LoginDto;
 import com.tj.boardExample.dto.UserDto;
 import com.tj.boardExample.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,15 @@ public class UserService {
 
     public void registerUser(UserDto userDto) {
         userMapper.insertUser(userDto);
+    }
+
+    public int login(LoginDto loginDto) {
+        UserDto userDto = userMapper.loginUser(loginDto);
+        if (userDto.getUserPw().equals(loginDto.getUserPw())) {
+            return userDto.getUserKey();
+        } else {
+            return 0;
+        }
     }
 
 }
