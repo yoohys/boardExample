@@ -37,14 +37,15 @@ public class UserController {
 
     // loginPage 에서 올라온 데이터를 가지고 실제 로그인이 진행될 API
     @RequestMapping(value = "/loginLogic", method = RequestMethod.GET)
-    public String loginLogic(LoginDto loginDto, HttpSession session) {
+    public String loginLogic(LoginDto loginDto, HttpSession session, Model model) {
         int result = userService.login(loginDto);
         if (result != 0) {
             session.setAttribute("userKey", result);
             // 로그인 로직
             // 항상
         } else {
-
+            model.addAttribute("error", "로그인이 실패하였습니다.");
+            return "user/loginPage";
         }
         return "redirect:/";
     }

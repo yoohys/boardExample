@@ -18,6 +18,10 @@ public class UserService {
 
     public int login(LoginDto loginDto) {
         UserDto userDto = userMapper.loginUser(loginDto);
+        if (userDto == null) {
+            return 0;
+        }
+
         if (userDto.getUserPw().equals(loginDto.getUserPw())) {
             return userDto.getUserKey();
         } else {
