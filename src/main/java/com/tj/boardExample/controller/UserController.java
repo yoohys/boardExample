@@ -69,4 +69,11 @@ public class UserController {
         model.addAttribute("list", arrayList);
         return "test";
     }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
 }
