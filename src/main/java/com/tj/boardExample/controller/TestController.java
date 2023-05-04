@@ -16,7 +16,7 @@ public class TestController {
     //   M          C   V
     //   C <----- V
     //   C -----> V
-    @RequestMapping("/") // 이 경로로 들어오면 내가 받겠다. Spring 에게 알려준것
+    @RequestMapping("/test") // 이 경로로 들어오면 내가 받겠다. Spring 에게 알려준것
     public String testPage(Model model) {
         model.addAttribute("test", "테스트");
         model.addAttribute("test2", "<a href=\"www.naver.com\">가</a>");

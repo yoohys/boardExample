@@ -2,6 +2,7 @@ package com.tj.boardExample.controller;
 
 import com.tj.boardExample.dto.BoardDto;
 import com.tj.boardExample.service.BoardService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +24,18 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/boardInsert", method = RequestMethod.GET)
-    public String boardInsert(BoardDto boardDto) {
+    public String boardInsert(BoardDto boardDto, HttpSession session) {
+        if (session.getAttribute("userKey") == null) {
+            return "redirect:/loginPage";
+        } else {
+            boardDto.setUserKey((Integer) session.getAttribute("userKey"));
+        }
+
         boardService.registerBoard(boardDto);
-        return "board/board.html";
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "/boardSelectAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String boardSelectAll(Model model) {
         List<BoardDto> boardDtoList = boardService.getAllBoard();
         model.addAttribute("boardList", boardDtoList);

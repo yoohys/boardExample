@@ -46,7 +46,7 @@ public class UserController {
         } else {
 
         }
-        return "user/loginPage";
+        return "redirect:/";
     }
 
     @RequestMapping("/loginTest") // 이 경로로 들어오면 내가 받겠다. Spring 에게 알려준것
