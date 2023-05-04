@@ -25,9 +25,16 @@ public class BoardService {
         return boardMapper.selectBoard(brdKey);
     }
 
-    public void modifyBoard(BoardDto boardDto) {
-        boardMapper.updateBoard(boardDto);
+    public int modifyBoard(BoardDto boardDto) {
+        BoardDto boardDto1 = boardMapper.selectBoard(boardDto.getBrdKey());
+        if (boardDto1.getUserKey().equals(boardDto.getUserKey())) {
+            boardMapper.updateBoard(boardDto);
+            return 1;
+        } else {
+            return 0;
+        }
     }
+
 
     public void removeBoard(Integer brdKey) {
         boardMapper.deleteBoard(brdKey);

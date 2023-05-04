@@ -46,30 +46,64 @@ public class BoardController {
     public String boardSelect(Model model, @PathVariable("brdKey") Integer brdKey2) {
         BoardDto boardDto = boardService.getBoard(brdKey2);
         model.addAttribute("board", boardDto);
-        System.out.println(boardDto);
         return "board/boardSelect";
         // boardSelect html 에서 데이터가 표현되게끔
     }
 
     // 수정 전 정보를 조회하고 수정을 할 수 있는 페이지 Return API
     @RequestMapping("/boardUpdate/{brdKey}") // Default = GET
-    public String boardUpdate1(Model model, @PathVariable("brdKey") Integer brdKey2) {
+    public String boardUpdate1(Model model, @PathVariable("brdKey") Integer brdKey2, HttpSession session) {
+        if (session.getAttribute("userKey") == null) {
+            return "redirect:/loginPage";
+        }
+        Integer sessionKey = (Integer) session.getAttribute("userKey");
         BoardDto boardDto = boardService.getBoard(brdKey2);
-        model.addAttribute("board", boardDto);
-        return "board/boardUpdate";
+        if (boardDto.getUserKey().equals(sessionKey)) {
+            model.addAttribute("board", boardDto);
+            model.addAttribute("error", "");
+            return "board/boardUpdate";
+        } else {
+            BoardDto boardDto2 = boardService.getBoard(brdKey2);
+            model.addAttribute("board", boardDto2);
+            model.addAttribute("error", "권한이 없습니다.");
+            return "board/boardSelect";
+        }
     }
 
     // 수정 버튼을 눌렀을때 데이터들을 통하여 실제 수정이 진행될 API
     @RequestMapping("/boardUpdate2") // Default = GET
-    public String boardUpdate2(Model model, BoardDto boardDto) {
-        boardService.modifyBoard(boardDto);
-        return "redirect:/boardSelect/" + boardDto.getBrdKey();
+    public String boardUpdate2(BoardDto boardDto, HttpSession session, Model model) {
+        if (session.getAttribute("userKey") == null) {
+            return "redirect:/loginPage";
+        } else {
+            boardDto.setUserKey((Integer) session.getAttribute("userKey"));
+        }
+        if (boardService.modifyBoard(boardDto) == 1) {
+            return "redirect:/boardSelect/" + boardDto.getBrdKey();
+        } else {
+            model.addAttribute("board", boardDto);
+            model.addAttribute("error", "수정이 완료되지 못했습니다.");
+            return "board/boardUpdate";
+        }
+
     }
 
     @RequestMapping("/boardDelete/{brdKey}") // Default = GET
-    public String boardDelete(@PathVariable("brdKey") Integer brdKey) {
-        boardService.removeBoard(brdKey);
-        return "test.html";
+    public String boardDelete(@PathVariable("brdKey") Integer brdKey, HttpSession session, Model model) {
+        if (session.getAttribute("userKey") == null) {
+            return "redirect:/loginPage";
+        }
+        Integer sessionKey = (Integer) session.getAttribute("userKey");
+        BoardDto boardDto = boardService.getBoard(brdKey);
+        if (boardDto.getUserKey().equals(sessionKey)) {
+            boardService.removeBoard(brdKey);
+            return "redirect:/";
+        } else {
+            model.addAttribute("board", boardDto);
+            model.addAttribute("error", "권한이 없습니다.");
+            return "board/boardSelect";
+        }
+
     }
 
 
