@@ -46,6 +46,7 @@ public class BoardController {
     public String boardSelect(Model model, @PathVariable("brdKey") Integer brdKey2) {
         BoardDto boardDto = boardService.getBoard(brdKey2);
         model.addAttribute("board", boardDto);
+        model.addAttribute("comments", boardService.getCommentList());
         return "board/boardSelect";
         // boardSelect html 에서 데이터가 표현되게끔
     }

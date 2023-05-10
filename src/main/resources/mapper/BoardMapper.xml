@@ -32,4 +32,9 @@
         WHERE brd_key = #{brdKey}
     </delete>
 
+    <select id="selectComment" resultType="com.tj.boardExample.dto.CommentDto">
+        SELECT *
+        FROM comment
+    </select>
+
 </mapper>

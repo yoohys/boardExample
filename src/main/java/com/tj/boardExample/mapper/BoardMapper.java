@@ -1,6 +1,7 @@
 package com.tj.boardExample.mapper;
 
 import com.tj.boardExample.dto.BoardDto;
+import com.tj.boardExample.dto.CommentDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface BoardMapper {
     void updateBoard(BoardDto boardDto);
 
     void deleteBoard(Integer brdKey);
+
+    List<CommentDto> selectComment();
 }

@@ -1,6 +1,7 @@
 package com.tj.boardExample.service;
 
 import com.tj.boardExample.dto.BoardDto;
+import com.tj.boardExample.dto.CommentDto;
 import com.tj.boardExample.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,12 @@ public class BoardService {
         }
     }
 
-
     public void removeBoard(Integer brdKey) {
         boardMapper.deleteBoard(brdKey);
+    }
+
+    public List<CommentDto> getCommentList() {
+        return boardMapper.selectComment();
     }
 
 }

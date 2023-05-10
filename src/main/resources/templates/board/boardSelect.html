@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 <body>
 <p> 제목 : [[${board.brdTitle}]]</p>
@@ -13,5 +16,52 @@
 <a th:href="@{/boardDelete/{key} (key=${board.brdKey}) }">삭제</a>
 <a href="/">목록으로</a>
 <p>[[${error}]]</p>
+<p>댓글</p>
+<table class="table">
+    <tr style="color: blue">
+        <th class="col">내용</th>
+        <th class="col">삭제</th>
+    </tr>
+    <tr th:each="comment : ${comments}">
+        <input th:value="${comment.cmtKey}" hidden="">
+        <td th:text="${comment.cmtContent}">
+        <td >
+        <button th:cmtKey="${comment.cmtKey}" th:onclick="deleteComment(this.getAttribute('cmtKey'))">
+        삭제</button></td>
+    </tr>
+</table>
+<input type="text" id="commentContent"> <button class="btn btn-success" onclick="insertComment()">등록</button>
+<script>
+    function deleteComment(key) {
+        $.ajax({
+            type : "DELETE",            // HTTP method type(GET, POST) 형식이다.
+            url : "/comment/"+key,      // 컨트롤러에서 대기중인 URL 주소이다.         // Json 형식의 데이터이다.
+            success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다.
+                alert("삭제가 잘 되었습니다");
+                location.reload();
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                alert("통신 실패.")
+            }
+        });
+    }
+
+    function insertComment() {
+        const content = document.getElementById('commentContent').value;
+          $.ajax({
+            type : "POST",            // HTTP method type(GET, POST) 형식이다.
+            url : "/comment",      // 컨트롤러에서 대기중인 URL 주소이다.         // Json 형식의 데이터이다.
+            data : {'cmtContent': content},
+            success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다.
+                alert("등록이 잘 되었습니다");
+                location.reload();
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                alert("통신 실패.")
+            }
+        });
+    }
+
+</script>
 </body>
 </html>
